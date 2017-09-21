@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://java.sun.com/xml/ns/javaee" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>webtest</display-name>
+  
+  
+  
+  <!-- *********************************************************************** -->
+  <!-- CKFINDER start -->
+  <!-- *********************************************************************** -->
+  <servlet>
+    <servlet-name>ConnectorServlet</servlet-name>
+    <servlet-class>com.ckfinder.connector.ConnectorServlet</servlet-class>
+    <init-param>
+      <param-name>XMLConfig</param-name>
+      <param-value>/WEB-INF/ckfinder-config.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>false</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet-mapping>
+    <servlet-name>ConnectorServlet</servlet-name>
+    <url-pattern>
+                   /ckfinder/core/connector/java/connector.java
+    </url-pattern>
+  </servlet-mapping>
+  
+  
+  <session-config> 
+    <session-timeout>30</session-timeout> <!-- 30분 -->
+  </session-config> 
+   
+  <!-- ************************************************************** --> 
+  <!-- 파일 다운로드 서블릿  
+  접속 주소가 http://127.0.0.1:8000/download로 시작하면 
+  자동으로 utility.FileDownload 클래스가 작동되게 되어 있습니다. 
+  , 프로젝트 전체에서 사용가능 
+  -->
+  <servlet><!-- 서블릿 이름과 서블릿 클래스 선언 --> 
+    <servlet-name>FileDownload</servlet-name> 
+    <servlet-class>utility.FileDownload</servlet-class> 
+  </servlet> 
+  <servlet-mapping><!-- URL상으로 접근해야하는 경로명 -->  <!-- :  web-inf경로이기 때문에 url로 지정할 수 없음 -->
+    <servlet-name>FileDownload</servlet-name> 
+    <url-pattern>/download</url-pattern>  <!-- //dir /filename 을 파라메터가 갖고감 : ?dir= -->
+  </servlet-mapping> 
+  
+    <filter>
+        <filter-name>AdminLoginCheckFilter</filter-name>
+        <filter-class>utility.AdminLoginCheckFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminLoginCheckFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>    
+    
+  <!-- ************************************************************** -->   
+</web-app>
